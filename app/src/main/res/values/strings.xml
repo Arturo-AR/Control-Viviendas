@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Control Viviendas</string>
+
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="signUp">Registrate</string>
+    <string name="login">Ingresar</string>
+    <string name="comingSoon">PROXIMAMENTE</string>
+</resources>
