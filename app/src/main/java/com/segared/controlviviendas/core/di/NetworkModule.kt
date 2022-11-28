@@ -10,6 +10,7 @@ import com.segared.controlviviendas.usecases.advertisements.data.network.Adverti
 import com.segared.controlviviendas.usecases.dashboard.data.network.DashboardClient
 import com.segared.controlviviendas.usecases.login.data.network.LoginClient
 import com.segared.controlviviendas.usecases.mypets.data.network.MyPetsClient
+import com.segared.controlviviendas.usecases.myvehicles.data.network.MyVehiclesClient
 import com.segared.controlviviendas.usecases.signup.data.network.SignupClient
 import dagger.Module
 import dagger.Provides
@@ -81,5 +82,11 @@ class NetworkModule {
     @Provides
     fun providesMyPetsClient(retrofit: Retrofit): MyPetsClient {
         return retrofit.create(MyPetsClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesMyVehiclesClient(retrofit: Retrofit): MyVehiclesClient {
+        return retrofit.create(MyVehiclesClient::class.java)
     }
 }
