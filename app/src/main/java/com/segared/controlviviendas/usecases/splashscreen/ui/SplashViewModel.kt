@@ -19,8 +19,8 @@ class SplashViewModel @Inject constructor(private val checkUserData: CheckUserDa
 
     init {
         viewModelScope.launch(Dispatchers.Main) {
-            _logged.value =
-                checkUserData.invoke()
+            _logged.value = true
+                //checkUserData.invoke()
         }
     }
 

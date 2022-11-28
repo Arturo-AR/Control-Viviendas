@@ -20,9 +20,12 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -34,6 +37,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavController
 import com.segared.controlviviendas.R
 import com.segared.controlviviendas.core.util.getRoute
@@ -362,5 +366,69 @@ fun GetImage(
                 modifier = Modifier.size(150.dp)
             )
         }
+    }
+}
+
+@Composable
+fun DropDownMenu(
+    list: List<String>,
+    onItemSelected: (Int) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf("") }
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
+
+    val icon = if (expanded) {
+        Icons.Filled.KeyboardArrowUp
+    } else {
+        Icons.Filled.KeyboardArrowDown
+    }
+
+    Column(modifier = Modifier.padding(8.dp)) {
+        OutlinedTextField(
+            value = selectedItem,
+            onValueChange = {
+                selectedItem = it
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
+                },
+            label = {
+                Text(text = "Tipo de Mascota")
+            },
+            trailingIcon = {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.clickable { expanded = !expanded })
+            }
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+        ) {
+
+            list.forEach { label ->
+                DropdownMenuItem(onClick = {
+                    selectedItem = label
+                    expanded = false
+                    val idType = when (label) {
+                        "Perro" -> 1
+                        "Gato" -> 2
+                        else -> 0
+                    }
+                    onItemSelected(idType)
+                }) {
+                    Text(text = label)
+                }
+            }
+
+        }
+
     }
 }
