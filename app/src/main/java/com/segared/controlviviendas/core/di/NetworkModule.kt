@@ -7,6 +7,7 @@ import com.segared.controlviviendas.core.data.SegaredDatabase
 import com.segared.controlviviendas.core.data.SegaredDatabaseDao
 import com.segared.controlviviendas.core.util.Constants
 import com.segared.controlviviendas.usecases.advertisements.data.network.AdvertisementsClient
+import com.segared.controlviviendas.usecases.complaints.data.network.ComplaintsClient
 import com.segared.controlviviendas.usecases.dashboard.data.network.DashboardClient
 import com.segared.controlviviendas.usecases.login.data.network.LoginClient
 import com.segared.controlviviendas.usecases.mypets.data.network.MyPetsClient
@@ -19,6 +20,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -88,5 +90,11 @@ class NetworkModule {
     @Provides
     fun providesMyVehiclesClient(retrofit: Retrofit): MyVehiclesClient {
         return retrofit.create(MyVehiclesClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideComplainsClient(retrofit: Retrofit): ComplaintsClient {
+        return retrofit.create(ComplaintsClient::class.java)
     }
 }
