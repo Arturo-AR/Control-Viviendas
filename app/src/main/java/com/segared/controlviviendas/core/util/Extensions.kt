@@ -5,7 +5,6 @@ import android.widget.Toast
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-import com.segared.controlviviendas.core.data.entities.UserData
 import com.segared.controlviviendas.core.navigation.MainScreens
 import com.segared.controlviviendas.usecases.login.data.network.response.LoginObject
 import java.io.ByteArrayOutputStream
@@ -47,14 +46,4 @@ fun Bitmap.toBase64String(): String {
     this.compress(Bitmap.CompressFormat.PNG, 100, bas)
     val b = bas.toByteArray()
     return "data:image/png;base64," + Base64.encodeToString(b, Base64.DEFAULT)
-}
-
-fun LoginObject.toUserRoom(): UserData {
-    return UserData(
-        user = this.user,
-        userId = this.userId,
-        userName = this.userName,
-        userLastname = this.userLastName,
-        userRol = this.rol
-    )
 }

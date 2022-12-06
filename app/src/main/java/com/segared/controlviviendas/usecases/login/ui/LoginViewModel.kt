@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.segared.controlviviendas.core.data.entities.UserData
 import com.segared.controlviviendas.core.util.Constants.SUCCESS_CODE
-import com.segared.controlviviendas.core.util.toUserRoom
 import com.segared.controlviviendas.usecases.login.domain.LoginUseCase
 import com.segared.controlviviendas.usecases.login.domain.SaveUserDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,7 +47,7 @@ class LoginViewModel @Inject constructor(
                         unValidate()
                     } else {
                         if (response.responseObject != null) {
-                            saveUser(response.responseObject.toUserRoom())
+                            //Todo Save user
                         }
                         onSuccess()
                     }
@@ -65,9 +63,4 @@ class LoginViewModel @Inject constructor(
     private fun enableLogin(user: String, password: String) =
         user.isNotEmpty() && password.isNotEmpty()
 
-    private fun saveUser(userData: UserData) {
-        viewModelScope.launch {
-            saveUserUseCase.invoke(userData)
-        }
-    }
 }
