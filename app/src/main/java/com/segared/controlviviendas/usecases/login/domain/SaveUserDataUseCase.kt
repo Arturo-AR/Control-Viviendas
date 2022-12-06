@@ -4,7 +4,7 @@ import com.segared.controlviviendas.usecases.login.data.LoginRepository
 import javax.inject.Inject
 
 class SaveUserDataUseCase @Inject constructor(private val repository: LoginRepository) {
-    suspend operator fun invoke() {
-
+    suspend operator fun invoke(key:String, value:Int) {
+        repository.saveUser(key, value)
     }
 }

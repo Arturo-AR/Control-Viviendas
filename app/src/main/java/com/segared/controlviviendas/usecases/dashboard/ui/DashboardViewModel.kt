@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segared.controlviviendas.core.util.Constants
 import com.segared.controlviviendas.usecases.dashboard.domain.GetPermissionsUseCase
+import com.segared.controlviviendas.usecases.dashboard.domain.GetUserRolUseCase
 import com.segared.controlviviendas.usecases.dashboard.domain.LogOutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val getPermissionsUseCase: GetPermissionsUseCase,
-    private val logOutUseCase: LogOutUseCase
+    private val logOutUseCase: LogOutUseCase,
+    private val getUserRolUseCase: GetUserRolUseCase
 ) :
     ViewModel() {
     private val _permissions = MutableLiveData<List<String>>()
@@ -27,7 +29,8 @@ class DashboardViewModel @Inject constructor(
     private fun getPermissions() {
         viewModelScope.launch {
             try {
-                val response = getPermissionsUseCase.invoke(1)
+                val rol = getUserRolUseCase.invoke()
+                val response = getPermissionsUseCase.invoke(rol)
                 if (response.responseCode == Constants.SUCCESS_CODE) {
                     _permissions.value = response.responseObject
                 }

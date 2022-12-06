@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class LogOutUseCase @Inject constructor(private val repository: DashboardRepository) {
     suspend operator fun invoke() {
-        //repository.logOut()
+        repository.logOut()
     }
 }
