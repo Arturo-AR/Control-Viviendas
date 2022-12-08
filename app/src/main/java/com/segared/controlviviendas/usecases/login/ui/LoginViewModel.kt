@@ -6,9 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segared.controlviviendas.core.util.Constants.SUCCESS_CODE
-import com.segared.controlviviendas.core.util.Constants.USER_ID_DATA_STORE
 import com.segared.controlviviendas.usecases.login.domain.LoginUseCase
-import com.segared.controlviviendas.usecases.login.domain.SaveUserDataUseCase
+import com.segared.controlviviendas.usecases.user.usecases.SetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val saveUserUseCase: SaveUserDataUseCase
+    private val setUserUseCase: SetUserUseCase
 ) : ViewModel() {
     private val _user = MutableLiveData<String>()
     val user: LiveData<String> = _user
@@ -48,8 +47,11 @@ class LoginViewModel @Inject constructor(
                         unValidate()
                     } else {
                         if (response.responseObject != null) {
-                            //Todo Save user
-                            saveUser(response.responseObject.userId)
+                            saveUser(
+                                userId = response.responseObject.userId,
+                                userRol = response.responseObject.rol,
+                                userName = response.responseObject.userName,
+                            )
                         }
                         onSuccess()
                     }
@@ -65,9 +67,9 @@ class LoginViewModel @Inject constructor(
     private fun enableLogin(user: String, password: String) =
         user.isNotEmpty() && password.isNotEmpty()
 
-    private fun saveUser(value: Int) {
+    private suspend fun saveUser(userId: Int, userRol: Int, userName: String) {
         viewModelScope.launch {
-            saveUserUseCase.invoke(USER_ID_DATA_STORE, value)
-        }
+            setUserUseCase.invoke(userId, userRol, userName)
+        }.join()
     }
 }

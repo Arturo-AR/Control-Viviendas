@@ -40,9 +40,10 @@ fun DashboardScreen(
     val permissions by viewModel.permissions.observeAsState(
         initial = emptyList()
     )
+    val userName by viewModel.userName.observeAsState(initial = "")
     MainScaffold(
         scaffoldState = scaffoldState,
-        titleScreen = "Bienvenido Arturo",
+        titleScreen = "Bienvenido $userName",
         inDashboard = true,
         drawerContent = {
             DrawerView(navController, viewModel)

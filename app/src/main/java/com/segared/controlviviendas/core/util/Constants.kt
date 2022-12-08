@@ -11,4 +11,5 @@ object Constants {
 
     const val USER_ID_DATA_STORE = "user_id_data_store"
     const val USER_ROL_DATA_STORE = "user_rol_data_store"
+    const val USER_NAME_DATA_STORE = "user_name_data_store"
 }
