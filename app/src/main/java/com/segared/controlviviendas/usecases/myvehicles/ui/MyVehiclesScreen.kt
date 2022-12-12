@@ -16,8 +16,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.segared.controlviviendas.core.components.MainMenuList
 import com.segared.controlviviendas.core.components.MainScaffold
+import com.segared.controlviviendas.core.components.MainVehiclesList
 import com.segared.controlviviendas.core.navigation.MainScreens
 import com.segared.controlviviendas.core.util.toast
 
@@ -156,9 +156,12 @@ fun MyVehiclesScreen(
             }
         },
         content = {
-            MainMenuList(
-                navController = navController,
-                items = vehiclesList.map { it.vehicleBrand }
+            MainVehiclesList(
+                //navController = navController,
+                items = vehiclesList,
+                onLongClick = {
+                    viewModel.deleteVehicle(it)
+                }
             ) {
 
             }

@@ -1,6 +1,7 @@
 package com.segared.controlviviendas.usecases.myvehicles.data.network
 
 import com.segared.controlviviendas.usecases.myvehicles.data.network.response.AddVehiclesResponse
+import com.segared.controlviviendas.usecases.myvehicles.data.network.response.DeleteVehicleResponse
 import com.segared.controlviviendas.usecases.myvehicles.data.network.response.MyVehiclesResponse
 import retrofit2.Response
 import retrofit2.http.Field
@@ -13,8 +14,15 @@ interface MyVehiclesClient {
     @POST("ws.php")
     suspend fun getPVehicles(
         @Query("opc") opc: Int,
-        @Field("idUsuario") user: Int
+        @Field("usuario") user: String
     ): Response<MyVehiclesResponse>
+
+    @FormUrlEncoded
+    @POST("ws.php")
+    suspend fun deleteVehicle(
+        @Query("opc") opc: Int,
+        @Field("idVehiculo") vehicleId: Int
+    ): Response<DeleteVehicleResponse>
 
     @FormUrlEncoded
     @POST("ws.php")

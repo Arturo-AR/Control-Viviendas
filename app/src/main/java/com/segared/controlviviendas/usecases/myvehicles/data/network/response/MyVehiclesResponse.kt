@@ -9,8 +9,10 @@ data class MyVehiclesResponse(
 )
 
 data class Vehicle(
-    @SerializedName("Marca") val vehicleBrand: String,
-    @SerializedName("Modelo") val vehicleModel: String,
-    @SerializedName("Color") val vehicleColor: String,
-    @SerializedName("Anio") val vehicleYear: String
+    @SerializedName("idVehiculo") val vehicleId: Int,
+    @SerializedName("marca") val vehicleBrand: String,
+    @SerializedName("modelo") val vehicleModel: String,
+    @SerializedName("placas") val vehiclePlate: String,
+    @SerializedName("color") val vehicleColor: String,
+    @SerializedName("anio") val vehicleYear: String
 )

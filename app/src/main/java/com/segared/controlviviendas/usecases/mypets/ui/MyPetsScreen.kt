@@ -146,7 +146,7 @@ fun MyPetsScreen(
         },
         content = {
             MainPetsList(
-                navController = navController,
+                //navController = navController,
                 items = petsList,
                 onLongClick = {
                     Log.d("Id", it.toString())

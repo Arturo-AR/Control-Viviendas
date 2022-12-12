@@ -5,7 +5,7 @@ import com.segared.controlviviendas.usecases.myvehicles.data.network.response.Ve
 import javax.inject.Inject
 
 class GetVehiclesListUseCase @Inject constructor(private val repository: MyVehiclesRepository) {
-    suspend operator fun invoke(user: Int): List<Vehicle> {
+    suspend operator fun invoke(user: String): List<Vehicle> {
         return repository.getVehicles(user).responseObject
     }
 }

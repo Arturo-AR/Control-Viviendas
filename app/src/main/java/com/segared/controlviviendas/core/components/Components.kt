@@ -48,6 +48,7 @@ import com.segared.controlviviendas.ui.theme.primary_dark
 import com.segared.controlviviendas.ui.theme.primary_light
 import com.segared.controlviviendas.ui.theme.secondary_text
 import com.segared.controlviviendas.usecases.mypets.data.network.response.Pet
+import com.segared.controlviviendas.usecases.myvehicles.data.network.response.Vehicle
 
 @Composable
 fun MainLogo(
@@ -280,11 +281,10 @@ fun MainMenuList(
     )
 }
 
-
 @ExperimentalFoundationApi
 @Composable
 fun MainPetsList(
-    navController: NavController,
+    //navController: NavController,
     items: List<Pet>,
     onLongClick: (Int) -> Unit = {},
     onClick: () -> Unit
@@ -317,6 +317,54 @@ fun MainPetsList(
                 ) {
                     Text(
                         text = items[index].petName,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+    )
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun MainVehiclesList(
+    //navController: NavController,
+    items: List<Vehicle>,
+    onLongClick: (Int) -> Unit = {},
+    onClick: () -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(128.dp),
+        contentPadding = PaddingValues(
+            start = 12.dp,
+            top = 16.dp,
+            end = 12.dp,
+            bottom = 16.dp
+        ),
+        content = {
+            items(items.size) { index ->
+                Card(
+                    backgroundColor = Color.Black,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onClick = {
+                                onClick()
+
+                            },
+                            onLongClick = {
+                                onLongClick(items[index].vehicleId)
+                            }
+                        ),
+                    elevation = 8.dp,
+                ) {
+                    Text(
+                        text = items[index].vehicleModel,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color.White,

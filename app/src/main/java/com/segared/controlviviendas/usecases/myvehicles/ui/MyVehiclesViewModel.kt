@@ -1,12 +1,15 @@
 package com.segared.controlviviendas.usecases.myvehicles.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segared.controlviviendas.usecases.myvehicles.data.network.response.Vehicle
 import com.segared.controlviviendas.usecases.myvehicles.domain.AddVehicleUseCase
+import com.segared.controlviviendas.usecases.myvehicles.domain.DeleteVehicleUseCase
 import com.segared.controlviviendas.usecases.myvehicles.domain.GetVehiclesListUseCase
+import com.segared.controlviviendas.usecases.user.usecases.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MyVehiclesViewModel @Inject constructor(
     private val getVehiclesUseCase: GetVehiclesListUseCase,
-    private val addVehicleUseCase: AddVehicleUseCase
+    private val addVehicleUseCase: AddVehicleUseCase,
+    private val deleteVehicleUseCase: DeleteVehicleUseCase,
+    private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
 
     private val _userVehiclesList = MutableLiveData<List<Vehicle>>()
@@ -41,7 +46,8 @@ class MyVehiclesViewModel @Inject constructor(
 
     private fun getVehicles() {
         viewModelScope.launch {
-            _userVehiclesList.value = getVehiclesUseCase.invoke(1)
+            val user = getUserUseCase.invoke()
+            _userVehiclesList.value = getVehiclesUseCase.invoke(user.user)
         }
     }
 
@@ -52,6 +58,14 @@ class MyVehiclesViewModel @Inject constructor(
 
     fun hideAddVehicle() {
         _showAddVehicle.value = false
+    }
+
+    fun deleteVehicle(vehicleId: Int) {
+        viewModelScope.launch {
+            if (deleteVehicleUseCase.invoke(vehicleId)) {
+                getVehicles()
+            }
+        }
     }
 
     fun onFormChange(
