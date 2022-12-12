@@ -3,5 +3,6 @@ package com.segared.controlviviendas.core.models
 data class Session(
     val userId: Int,
     val userRol: Int,
-    val userName: String
+    val userName: String,
+    val user: String
 )

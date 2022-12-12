@@ -1,6 +1,7 @@
 package com.segared.controlviviendas.usecases.dashboard.ui
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,6 +30,7 @@ import com.segared.controlviviendas.core.util.toast
 import com.segared.controlviviendas.ui.theme.primary_dark
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @Composable
 fun DashboardScreen(
     navController: NavController,

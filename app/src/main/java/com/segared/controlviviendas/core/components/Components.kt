@@ -7,8 +7,10 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -45,6 +47,7 @@ import com.segared.controlviviendas.ui.theme.primary
 import com.segared.controlviviendas.ui.theme.primary_dark
 import com.segared.controlviviendas.ui.theme.primary_light
 import com.segared.controlviviendas.ui.theme.secondary_text
+import com.segared.controlviviendas.usecases.mypets.data.network.response.Pet
 
 @Composable
 fun MainLogo(
@@ -265,6 +268,55 @@ fun MainMenuList(
                 ) {
                     Text(
                         text = items[index],
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+    )
+}
+
+
+@ExperimentalFoundationApi
+@Composable
+fun MainPetsList(
+    navController: NavController,
+    items: List<Pet>,
+    onLongClick: (Int) -> Unit = {},
+    onClick: () -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(128.dp),
+        contentPadding = PaddingValues(
+            start = 12.dp,
+            top = 16.dp,
+            end = 12.dp,
+            bottom = 16.dp
+        ),
+        content = {
+            items(items.size) { index ->
+                Card(
+                    backgroundColor = Color.Black,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onClick = {
+                                onClick()
+
+                            },
+                            onLongClick = {
+                                onLongClick(items[index].petId)
+                            }
+                        ),
+                    elevation = 8.dp,
+                ) {
+                    Text(
+                        text = items[index].petName,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color.White,

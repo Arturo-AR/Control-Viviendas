@@ -9,8 +9,9 @@ data class MyPetsResponse(
 )
 
 data class Pet(
-    @SerializedName("Nombre") val petName: String,
-    @SerializedName("Raza") val breed: String,
-    @SerializedName("Color") val color: String,
-    @SerializedName("Tipo") val type: String
+    @SerializedName("idMascora") val petId: Int,
+    @SerializedName("mascota") val petName: String,
+    @SerializedName("raza") val breed: String,
+    @SerializedName("color") val color: String,
+    @SerializedName("tipo") val type: String
 )

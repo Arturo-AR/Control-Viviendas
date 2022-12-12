@@ -4,7 +4,7 @@ import com.segared.controlviviendas.usecases.user.UserInstanceRepository
 import javax.inject.Inject
 
 class SetUserUseCase @Inject constructor(private val repository: UserInstanceRepository) {
-    suspend operator fun invoke(userId: Int, userRol: Int, userName: String) {
-        repository.setSession(userId, userRol, userName)
+    suspend operator fun invoke(userId: Int, userRol: Int, userName: String, user:String) {
+        repository.setSession(userId, userRol, userName, user)
     }
 }

@@ -1,5 +1,7 @@
 package com.segared.controlviviendas.usecases.mypets.ui
 
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,11 +15,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.segared.controlviviendas.core.components.DropDownMenu
-import com.segared.controlviviendas.core.components.MainMenuList
+import com.segared.controlviviendas.core.components.MainPetsList
 import com.segared.controlviviendas.core.components.MainScaffold
 import com.segared.controlviviendas.core.navigation.MainScreens
 import com.segared.controlviviendas.core.util.toast
 
+@ExperimentalFoundationApi
 @Composable
 fun MyPetsScreen(
     navController: NavController,
@@ -142,9 +145,13 @@ fun MyPetsScreen(
             }
         },
         content = {
-            MainMenuList(
+            MainPetsList(
                 navController = navController,
-                items = petsList.map { it.petName }
+                items = petsList,
+                onLongClick = {
+                    Log.d("Id", it.toString())
+                    viewModel.deletePet(it)
+                }
             ) {
 
             }

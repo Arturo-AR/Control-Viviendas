@@ -10,4 +10,7 @@ interface Preferences {
 
     suspend fun putUserName(key:String, value: String)
     suspend fun getUserName(key:String): String?
+
+    suspend fun putUser(key:String, value: String)
+    suspend fun getUser(key:String): String?
 }

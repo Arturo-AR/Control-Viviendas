@@ -14,7 +14,7 @@ private val Context.dataStore by preferencesDataStore(name = PREFERENCES_NAME)
 
 class PreferencesImpl @Inject constructor(
     private val context: Context
-): Preferences {
+) : Preferences {
     override suspend fun putUserId(key: String, value: Int) {
         val preferencesKey = intPreferencesKey(key)
         context.dataStore.edit { preferences ->
@@ -66,6 +66,24 @@ class PreferencesImpl @Inject constructor(
     }
 
     override suspend fun getUserName(key: String): String? {
+        return try {
+            val preferencesKey = stringPreferencesKey(key)
+            val preferences = context.dataStore.data.first()
+            preferences[preferencesKey]
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            null
+        }
+    }
+
+    override suspend fun putUser(key: String, value: String) {
+        val preferencesKey = stringPreferencesKey(key)
+        context.dataStore.edit { preferences ->
+            preferences[preferencesKey] = value
+        }
+    }
+
+    override suspend fun getUser(key: String): String? {
         return try {
             val preferencesKey = stringPreferencesKey(key)
             val preferences = context.dataStore.data.first()

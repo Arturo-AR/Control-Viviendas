@@ -30,6 +30,14 @@ class DataStoreRepositoryImpl @Inject constructor(
         return preferences.getUserName(key)
     }
 
+    override suspend fun putUserValue(key: String, value: String) {
+        preferences.putUser(key, value)
+    }
+
+    override suspend fun getUserValue(key: String): String? {
+        return preferences.getUser(key)
+    }
+
     override suspend fun deleteData() {
         preferences.deleteData()
     }

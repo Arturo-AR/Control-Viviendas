@@ -51,6 +51,7 @@ class LoginViewModel @Inject constructor(
                                 userId = response.responseObject.userId,
                                 userRol = response.responseObject.rol,
                                 userName = response.responseObject.userName,
+                                user = response.responseObject.user
                             )
                         }
                         onSuccess()
@@ -67,9 +68,9 @@ class LoginViewModel @Inject constructor(
     private fun enableLogin(user: String, password: String) =
         user.isNotEmpty() && password.isNotEmpty()
 
-    private suspend fun saveUser(userId: Int, userRol: Int, userName: String) {
+    private suspend fun saveUser(userId: Int, userRol: Int, userName: String, user: String) {
         viewModelScope.launch {
-            setUserUseCase.invoke(userId, userRol, userName)
+            setUserUseCase.invoke(userId, userRol, userName, user)
         }.join()
     }
 }

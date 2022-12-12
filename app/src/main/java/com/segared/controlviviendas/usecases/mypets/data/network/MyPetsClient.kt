@@ -1,6 +1,7 @@
 package com.segared.controlviviendas.usecases.mypets.data.network
 
 import com.segared.controlviviendas.usecases.mypets.data.network.response.AddPetsResponse
+import com.segared.controlviviendas.usecases.mypets.data.network.response.DeletePetResponse
 import com.segared.controlviviendas.usecases.mypets.data.network.response.MyPetsResponse
 import retrofit2.Response
 import retrofit2.http.Field
@@ -14,8 +15,15 @@ interface MyPetsClient {
     @POST("ws.php")
     suspend fun getPets(
         @Query("opc") opc: Int,
-        @Field("idUsuario") user: Int
+        @Field("usuario") user: String
     ): Response<MyPetsResponse>
+
+    @FormUrlEncoded
+    @POST("ws.php")
+    suspend fun deletePet(
+        @Query("opc") opc: Int,
+        @Field("idMascota") petId: Int
+    ): Response<DeletePetResponse>
 
     @FormUrlEncoded
     @POST("ws.php")

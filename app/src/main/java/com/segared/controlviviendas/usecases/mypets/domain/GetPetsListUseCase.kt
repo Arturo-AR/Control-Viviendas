@@ -5,7 +5,7 @@ import com.segared.controlviviendas.usecases.mypets.data.network.response.Pet
 import javax.inject.Inject
 
 class GetPetsListUseCase @Inject constructor(private val repository: MyPetsRepository) {
-    suspend operator fun invoke(user: Int): List<Pet> {
+    suspend operator fun invoke(user: String): List<Pet> {
         return repository.getPets(user).responseObject
     }
 }

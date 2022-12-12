@@ -1,5 +1,6 @@
 package com.segared.controlviviendas.usecases.myvehicles.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -20,6 +21,7 @@ import com.segared.controlviviendas.core.components.MainScaffold
 import com.segared.controlviviendas.core.navigation.MainScreens
 import com.segared.controlviviendas.core.util.toast
 
+@ExperimentalFoundationApi
 @Composable
 fun MyVehiclesScreen(
     navController: NavController,

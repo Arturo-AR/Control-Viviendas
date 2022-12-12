@@ -1,12 +1,15 @@
 package com.segared.controlviviendas.usecases.mypets.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segared.controlviviendas.usecases.mypets.data.network.response.Pet
 import com.segared.controlviviendas.usecases.mypets.domain.AddPetUseCase
+import com.segared.controlviviendas.usecases.mypets.domain.DeletePetUseCase
 import com.segared.controlviviendas.usecases.mypets.domain.GetPetsListUseCase
+import com.segared.controlviviendas.usecases.user.usecases.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,7 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPetsViewModel @Inject constructor(
     private val getPetUseCase: GetPetsListUseCase,
-    private val addPetUseCase: AddPetUseCase
+    private val addPetUseCase: AddPetUseCase,
+    private val deletePetUseCase: DeletePetUseCase,
+    private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
 
     private val _userPetsList = MutableLiveData<List<Pet>>()
@@ -41,7 +46,18 @@ class MyPetsViewModel @Inject constructor(
 
     private fun getPet() {
         viewModelScope.launch {
-            _userPetsList.value = getPetUseCase.invoke(1)
+            val user = getUserUseCase.invoke()
+            _userPetsList.value = getPetUseCase.invoke(user.user)
+        }
+    }
+
+    fun deletePet(petId: Int) {
+        viewModelScope.launch {
+            if (deletePetUseCase.invoke(petId)) {
+                Log.d("viewModel", "true")
+                getPet()
+            }
+            Log.d("viewModel", "entro, despues")
         }
     }
 
@@ -53,7 +69,7 @@ class MyPetsViewModel @Inject constructor(
         _showAddPet.value = false
     }
 
-    fun onFormChange(petName: String, petBreed: String, petColor: String, petTypeId:Int) {
+    fun onFormChange(petName: String, petBreed: String, petColor: String, petTypeId: Int) {
         _petName.value = petName
         _petBreed.value = petBreed
         _petColor.value = petColor
