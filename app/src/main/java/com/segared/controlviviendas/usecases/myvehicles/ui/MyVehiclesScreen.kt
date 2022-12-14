@@ -139,9 +139,8 @@ fun MyVehiclesScreen(
         )
     }
 
-
     MainScaffold(
-        titleScreen = "Mis Mascotas",
+        titleScreen = "Mis Vehiculos",
         onTopBarIconAction = {
             navController.navigate(MainScreens.DashboardScreen.route) {
                 popUpTo(MainScreens.DashboardScreen.route)

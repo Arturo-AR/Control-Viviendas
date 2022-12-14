@@ -6,9 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segared.controlviviendas.usecases.mypets.data.network.response.Pet
-import com.segared.controlviviendas.usecases.mypets.domain.AddPetUseCase
-import com.segared.controlviviendas.usecases.mypets.domain.DeletePetUseCase
-import com.segared.controlviviendas.usecases.mypets.domain.GetPetsListUseCase
+import com.segared.controlviviendas.usecases.mypets.data.network.response.PetType
+import com.segared.controlviviendas.usecases.mypets.domain.*
 import com.segared.controlviviendas.usecases.user.usecases.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,11 +18,16 @@ class MyPetsViewModel @Inject constructor(
     private val getPetUseCase: GetPetsListUseCase,
     private val addPetUseCase: AddPetUseCase,
     private val deletePetUseCase: DeletePetUseCase,
+    private val updatePetUseCase: UpdatePetUseCase,
+    private val getPetTypesUseCase: GetPetTypesUseCase,
     private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
 
     private val _userPetsList = MutableLiveData<List<Pet>>()
     val userPetsList: LiveData<List<Pet>> = _userPetsList
+
+    private val _petsTypesList = MutableLiveData<List<PetType>>()
+    val petsTypesList: LiveData<List<PetType>> = _petsTypesList
 
     private val _petTypeId = MutableLiveData<Int>()
     val petTypeId: LiveData<Int> = _petTypeId
@@ -40,8 +44,11 @@ class MyPetsViewModel @Inject constructor(
     private val _showAddPet = MutableLiveData<Boolean>()
     val showAddPet: LiveData<Boolean> = _showAddPet
 
+    private val _petId = MutableLiveData<Int>()
+
     init {
         getPet()
+        getPetTypes()
     }
 
     private fun getPet() {
@@ -51,13 +58,17 @@ class MyPetsViewModel @Inject constructor(
         }
     }
 
-    fun deletePet(petId: Int) {
+    private fun getPetTypes() {
         viewModelScope.launch {
-            if (deletePetUseCase.invoke(petId)) {
-                Log.d("viewModel", "true")
+            _petsTypesList.value = getPetTypesUseCase.invoke()
+        }
+    }
+
+    fun deletePet() {
+        viewModelScope.launch {
+            if (deletePetUseCase.invoke(_petId.value ?: 0)) {
                 getPet()
             }
-            Log.d("viewModel", "entro, despues")
         }
     }
 
@@ -94,4 +105,33 @@ class MyPetsViewModel @Inject constructor(
         }
     }
 
+    fun editPet(petId: Int, index: Int) {
+        _petId.value = petId
+        _petColor.value = _userPetsList.value?.get(index)?.color
+        _petName.value = _userPetsList.value?.get(index)?.petName
+        _petBreed.value = _userPetsList.value?.get(index)?.breed
+    }
+
+    fun updatePet() {
+        Log.d("petId", _petId.value.toString())
+        viewModelScope.launch {
+            if (updatePetUseCase.invoke(
+                    _petId.value ?: 0,
+                    _petName.value ?: "",
+                    _petBreed.value ?: "",
+                    _petColor.value ?: "",
+                    _petTypeId.value ?: 1
+                )
+            ) {
+                getPet()
+                hideAddPet()
+            }
+        }
+    }
+
+    fun cleanPet() {
+        _petColor.value = ""
+        _petName.value = ""
+        _petBreed.value = ""
+    }
 }

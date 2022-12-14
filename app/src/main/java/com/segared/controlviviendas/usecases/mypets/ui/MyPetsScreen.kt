@@ -1,6 +1,5 @@
 package com.segared.controlviviendas.usecases.mypets.ui
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
@@ -33,7 +32,10 @@ fun MyPetsScreen(
     val petColor by viewModel.petColor.observeAsState(initial = "")
     val petTypeId by viewModel.petTypeId.observeAsState(initial = 1)
     val showAddPet by viewModel.showAddPet.observeAsState(initial = false)
-
+    val petsTypesList by viewModel.petsTypesList.observeAsState(initial = emptyList())
+    var editing by remember {
+        mutableStateOf(false)
+    }
     if (showAddPet) {
         AlertDialog(
             onDismissRequest = {
@@ -42,27 +44,38 @@ fun MyPetsScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        viewModel.addPet {
-                            context.toast("Error, intentelo mas tarde")
+                        if (editing) {
+                            viewModel.updatePet()
+                        } else {
+                            viewModel.addPet {
+                                context.toast("Error, intentelo mas tarde")
+                            }
                         }
+
                     },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Black
                     )
                 ) {
-                    Text(text = "Agregar", color = Color.White)
+                    Text(text = if (editing) "Actualizar" else "Agregar", color = Color.White)
                 }
             },
             dismissButton = {
                 Button(
                     onClick = {
-                        viewModel.hideAddPet()
+                        if (editing) {
+                            viewModel.deletePet()
+                            viewModel.hideAddPet()
+                        } else {
+                            viewModel.hideAddPet()
+                        }
+
                     },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Black
                     )
                 ) {
-                    Text(text = "Cancelar", color = Color.White)
+                    Text(text = if (editing) "Eliminar" else "Cancelar", color = Color.White)
                 }
             },
             title = {
@@ -70,7 +83,7 @@ fun MyPetsScreen(
             },
             text = {
                 Column {
-                    DropDownMenu(listOf("Perro", "Gato")){
+                    DropDownMenu(petsTypesList) {
 
                         viewModel.onFormChange(
                             petName = petName,
@@ -138,7 +151,11 @@ fun MyPetsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { viewModel.showAddPet() },
+                onClick = {
+                    editing = false
+                    viewModel.cleanPet()
+                    viewModel.showAddPet()
+                },
                 backgroundColor = Color.Black
             ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = null, tint = Color.White)
@@ -146,14 +163,11 @@ fun MyPetsScreen(
         },
         content = {
             MainPetsList(
-                //navController = navController,
-                items = petsList,
-                onLongClick = {
-                    Log.d("Id", it.toString())
-                    viewModel.deletePet(it)
-                }
-            ) {
-
+                items = petsList
+            ) { petId, index ->
+                editing = true
+                viewModel.editPet(petId, index)
+                viewModel.showAddPet()
             }
         }
     )

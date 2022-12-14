@@ -48,6 +48,7 @@ import com.segared.controlviviendas.ui.theme.primary_dark
 import com.segared.controlviviendas.ui.theme.primary_light
 import com.segared.controlviviendas.ui.theme.secondary_text
 import com.segared.controlviviendas.usecases.mypets.data.network.response.Pet
+import com.segared.controlviviendas.usecases.mypets.data.network.response.PetType
 import com.segared.controlviviendas.usecases.myvehicles.data.network.response.Vehicle
 
 @Composable
@@ -284,10 +285,8 @@ fun MainMenuList(
 @ExperimentalFoundationApi
 @Composable
 fun MainPetsList(
-    //navController: NavController,
     items: List<Pet>,
-    onLongClick: (Int) -> Unit = {},
-    onClick: () -> Unit
+    onClick: (Int, Int) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(128.dp),
@@ -304,15 +303,9 @@ fun MainPetsList(
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
-                        .combinedClickable(
-                            onClick = {
-                                onClick()
-
-                            },
-                            onLongClick = {
-                                onLongClick(items[index].petId)
-                            }
-                        ),
+                        .clickable {
+                            onClick(items[index].petId, index)
+                        },
                     elevation = 8.dp,
                 ) {
                     Text(
@@ -471,7 +464,7 @@ fun GetImage(
 
 @Composable
 fun DropDownMenu(
-    list: List<String>,
+    list: List<PetType>,
     onItemSelected: (Int) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -515,16 +508,12 @@ fun DropDownMenu(
 
             list.forEach { label ->
                 DropdownMenuItem(onClick = {
-                    selectedItem = label
+                    selectedItem = label.descriptionType
                     expanded = false
-                    val idType = when (label) {
-                        "Perro" -> 1
-                        "Gato" -> 2
-                        else -> 0
-                    }
+                    val idType = label.petTypeId
                     onItemSelected(idType)
                 }) {
-                    Text(text = label)
+                    Text(text = label.descriptionType)
                 }
             }
 

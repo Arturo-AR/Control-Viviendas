@@ -1,8 +1,8 @@
 package com.segared.controlviviendas.usecases.mypets.data.network
 
-import com.segared.controlviviendas.usecases.mypets.data.network.response.AddPetsResponse
-import com.segared.controlviviendas.usecases.mypets.data.network.response.DeletePetResponse
+import com.segared.controlviviendas.core.models.DefaultServerResponse
 import com.segared.controlviviendas.usecases.mypets.data.network.response.MyPetsResponse
+import com.segared.controlviviendas.usecases.mypets.data.network.response.PetsTypesResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -23,7 +23,23 @@ interface MyPetsClient {
     suspend fun deletePet(
         @Query("opc") opc: Int,
         @Field("idMascota") petId: Int
-    ): Response<DeletePetResponse>
+    ): Response<DefaultServerResponse>
+
+    @FormUrlEncoded
+    @POST("ws.php")
+    suspend fun updatePet(
+        @Query("opc") opc: Int,
+        @Field("idMascota") petId: Int,
+        @Field("nombre") petName: String,
+        @Field("raza") petBreed: String,
+        @Field("color") petColor: String,
+        @Field("tipoMascota") petTypeId: Int
+    ): Response<DefaultServerResponse>
+
+    @POST("ws.php")
+    suspend fun getPetTypes(
+        @Query("opc") opc: Int,
+    ): Response<PetsTypesResponse>
 
     @FormUrlEncoded
     @POST("ws.php")
@@ -34,5 +50,5 @@ interface MyPetsClient {
         @Field("razaMascota") petBreed: String,
         @Field("colorMascota") petColor: String,
         @Field("idUsuario") userId: Int
-    ): Response<AddPetsResponse>
+    ): Response<DefaultServerResponse>
 }

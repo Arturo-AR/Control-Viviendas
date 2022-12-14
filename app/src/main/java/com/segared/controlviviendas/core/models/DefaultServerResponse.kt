@@ -1,8 +1,8 @@
-package com.segared.controlviviendas.usecases.mypets.data.network.response
+package com.segared.controlviviendas.core.models
 
 import com.google.gson.annotations.SerializedName
 
-data class AddPetsResponse(
+data class DefaultServerResponse(
     @SerializedName("codigo") val responseCode: String,
     @SerializedName("mensaje") val responseMessage: String,
     @SerializedName("objetoRespuesta") val responseObject: String?
