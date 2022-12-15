@@ -1,6 +1,6 @@
 package com.segared.controlviviendas.usecases.signup.data.network
 
-import com.segared.controlviviendas.usecases.signup.data.network.response.SignupResponse
+import com.segared.controlviviendas.core.models.DefaultServerResponse
 import javax.inject.Inject
 
 class SignupService @Inject constructor(private val signupClient: SignupClient) {
@@ -15,7 +15,7 @@ class SignupService @Inject constructor(private val signupClient: SignupClient) 
         password: String,
         inePhoto: String,
         typeId: Int
-    ): SignupResponse {
+    ): DefaultServerResponse {
         val response = signupClient.signup(
             opc = 1,
             name = name,

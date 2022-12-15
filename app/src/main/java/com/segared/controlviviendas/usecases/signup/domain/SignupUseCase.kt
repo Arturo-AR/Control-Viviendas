@@ -1,9 +1,9 @@
 package com.segared.controlviviendas.usecases.signup.domain
 
 import android.graphics.Bitmap
+import com.segared.controlviviendas.core.models.DefaultServerResponse
 import com.segared.controlviviendas.core.util.toBase64String
 import com.segared.controlviviendas.usecases.signup.data.SignupRepository
-import com.segared.controlviviendas.usecases.signup.data.network.response.SignupResponse
 import javax.inject.Inject
 
 class SignupUseCase @Inject constructor(private val repository: SignupRepository) {
@@ -18,7 +18,7 @@ class SignupUseCase @Inject constructor(private val repository: SignupRepository
         password: String,
         inePhoto: Bitmap?,
         typeId: Int
-    ): SignupResponse {
+    ): DefaultServerResponse {
         return repository.signup(
             name = name,
             lastName = lastName,

@@ -282,7 +282,6 @@ fun MainMenuList(
     )
 }
 
-@ExperimentalFoundationApi
 @Composable
 fun MainPetsList(
     items: List<Pet>,
@@ -322,13 +321,11 @@ fun MainPetsList(
     )
 }
 
-@ExperimentalFoundationApi
 @Composable
 fun MainVehiclesList(
     //navController: NavController,
     items: List<Vehicle>,
-    onLongClick: (Int) -> Unit = {},
-    onClick: () -> Unit
+    onClick: (Int, Int) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(128.dp),
@@ -345,15 +342,9 @@ fun MainVehiclesList(
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth()
-                        .combinedClickable(
-                            onClick = {
-                                onClick()
-
-                            },
-                            onLongClick = {
-                                onLongClick(items[index].vehicleId)
-                            }
-                        ),
+                        .clickable {
+                            onClick(items[index].vehicleId, index)
+                        },
                     elevation = 8.dp,
                 ) {
                     Text(

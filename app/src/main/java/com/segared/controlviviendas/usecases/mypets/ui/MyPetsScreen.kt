@@ -1,6 +1,5 @@
 package com.segared.controlviviendas.usecases.mypets.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,7 +18,6 @@ import com.segared.controlviviendas.core.components.MainScaffold
 import com.segared.controlviviendas.core.navigation.MainScreens
 import com.segared.controlviviendas.core.util.toast
 
-@ExperimentalFoundationApi
 @Composable
 fun MyPetsScreen(
     navController: NavController,
@@ -51,7 +49,6 @@ fun MyPetsScreen(
                                 context.toast("Error, intentelo mas tarde")
                             }
                         }
-
                     },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Black
@@ -79,7 +76,11 @@ fun MyPetsScreen(
                 }
             },
             title = {
-                Text(text = "Agregar Mascota", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = if (editing) "Actializar Mascota" else "Agregar Mascota",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
             },
             text = {
                 Column {

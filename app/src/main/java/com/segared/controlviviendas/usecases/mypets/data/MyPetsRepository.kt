@@ -25,11 +25,6 @@ class MyPetsRepository @Inject constructor(
         petColor: String,
         petTypeId: Int
     ): DefaultServerResponse {
-        Log.d("idMascota", petId.toString())
-        Log.d("nombre", petName)
-        Log.d("raza", petBreed)
-        Log.d("color", petColor)
-        Log.d("tipoMascota", petTypeId.toString())
         return api.updatePet(petId, petName, petBreed, petColor, petTypeId)
     }
 

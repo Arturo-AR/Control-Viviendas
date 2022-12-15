@@ -1,7 +1,7 @@
 package com.segared.controlviviendas.usecases.signup.data
 
+import com.segared.controlviviendas.core.models.DefaultServerResponse
 import com.segared.controlviviendas.usecases.signup.data.network.SignupService
-import com.segared.controlviviendas.usecases.signup.data.network.response.SignupResponse
 import javax.inject.Inject
 
 class SignupRepository @Inject constructor(private val api: SignupService) {
@@ -16,7 +16,7 @@ class SignupRepository @Inject constructor(private val api: SignupService) {
         password: String,
         inePhoto: String,
         typeId: Int
-    ): SignupResponse {
+    ): DefaultServerResponse {
         return api.signup(
             name = name,
             lastName = lastName,

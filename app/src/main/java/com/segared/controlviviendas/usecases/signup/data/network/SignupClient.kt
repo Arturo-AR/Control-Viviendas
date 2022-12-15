@@ -1,6 +1,6 @@
 package com.segared.controlviviendas.usecases.signup.data.network
 
-import com.segared.controlviviendas.usecases.signup.data.network.response.SignupResponse
+import com.segared.controlviviendas.core.models.DefaultServerResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -22,5 +22,5 @@ interface SignupClient {
         @Field("usuario") user: String,
         @Field("password") password: String,
         @Field("idTipo") typeId: Int,
-    ): Response<SignupResponse>
+    ): Response<DefaultServerResponse>
 }

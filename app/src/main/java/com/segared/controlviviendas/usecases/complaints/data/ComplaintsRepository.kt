@@ -1,7 +1,7 @@
 package com.segared.controlviviendas.usecases.complaints.data
 
+import com.segared.controlviviendas.core.models.DefaultServerResponse
 import com.segared.controlviviendas.usecases.complaints.data.network.ComplaintsService
-import com.segared.controlviviendas.usecases.complaints.data.network.response.ComplaintsResponse
 import javax.inject.Inject
 
 class ComplaintsRepository @Inject constructor(
@@ -11,7 +11,7 @@ class ComplaintsRepository @Inject constructor(
         complain: String,
         userId: Int,
         anonymous: Int,
-    ): ComplaintsResponse {
+    ): DefaultServerResponse {
         return api.uploadComplaint(complain, userId, anonymous)
     }
 }

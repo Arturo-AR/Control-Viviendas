@@ -1,6 +1,5 @@
 package com.segared.controlviviendas.usecases.mypets.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -113,7 +112,6 @@ class MyPetsViewModel @Inject constructor(
     }
 
     fun updatePet() {
-        Log.d("petId", _petId.value.toString())
         viewModelScope.launch {
             if (updatePetUseCase.invoke(
                     _petId.value ?: 0,

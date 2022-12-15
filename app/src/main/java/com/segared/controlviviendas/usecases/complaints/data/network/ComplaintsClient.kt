@@ -1,6 +1,6 @@
 package com.segared.controlviviendas.usecases.complaints.data.network
 
-import com.segared.controlviviendas.usecases.complaints.data.network.response.ComplaintsResponse
+import com.segared.controlviviendas.core.models.DefaultServerResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -17,5 +17,5 @@ interface ComplaintsClient {
         @Field("idUsuario") userId: Int,
         @Field("anonimo") anonymous: Int,
 
-    ): Response<ComplaintsResponse>
+    ): Response<DefaultServerResponse>
 }
